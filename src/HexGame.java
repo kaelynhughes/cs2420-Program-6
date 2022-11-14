@@ -140,12 +140,13 @@ public class HexGame {
 
     public static void main(String[] args) {
         System.out.println("Test constructor:");
-        HexGame game1 = new HexGame();
-        System.out.println(game1.getSize() + " cells for a side length of " + game1.getSideLength());
-        System.out.println(game1);
+        HexGame game0 = new HexGame();
+        System.out.println(game0.getSize() + " cells for a side length of " + game0.getSideLength());
+        System.out.println(game0);
 
-        System.out.println("Test findNeighbors & overlapping moves");
-        int[] cellsToTest = {12, 27, 47, 63, 82, 107};
+        System.out.println("Test findNeighbors, overlapping moves, alternative sized boards");
+        HexGame game1 = new HexGame(14);
+        int[] cellsToTest = {25, 47, 63, 81, 107, 160};
         for (int i : cellsToTest) {
             game1.move("BLUE", i);
             for (int j : game1.findNeighbors(i)) {
