@@ -8,6 +8,7 @@ public class HexGame {
     private UnionFind unionFind;
 
     private int[] sides; // top, bottom, left, right
+    private int totalMoves = 0;
     private static final String COLOR_RESET =  "\u001B[0m";
     private static final String COLOR_RED =  "\u001B[31m";
     private static final String COLOR_BLUE =  "\u001B[34m";
@@ -52,6 +53,20 @@ public class HexGame {
         return neighbors;
     }
 
+    public boolean checkForWin() {
+        if (unionFind.find(sides[0]) == unionFind.find(sides[1])) {
+            System.out.printf("--------> Red has won after %d moves! Here is the final board:", totalMoves);
+            System.out.println(this);
+            return true;
+        }
+        else if (unionFind.find(sides[2]) == unionFind.find(sides[3])) {
+            System.out.printf("--------> Blue has won after %d moves! Here is the final board:", totalMoves);
+            System.out.println(this);
+            return true;
+        }
+        else return false;
+    }
+
     public void move(String color, int cell) {
         if (cell > sideLength * sideLength || cell < 0) {
             System.out.println("Invalid move: attempted cell " + cell);
@@ -60,6 +75,7 @@ public class HexGame {
         else if (cellArray[cell].compareTo("NONE") != 0) {
             System.out.println("Invalid move: cell " + cell + " already has a color");
         }
+        totalMoves++;
         cellArray[cell] = color;
         for (int i : findNeighbors(cell)) {
             if (cellArray[i].compareTo(color) == 0) {
@@ -140,6 +156,7 @@ public class HexGame {
 
         HexGame game2 = new HexGame();
         String[] colors = {"BLUE", "RED"};
+        System.out.println("Testing board with file moves.txt");
         try {
             Scanner scanner = new Scanner(new File("moves.txt"));
             int moves = 0;
@@ -147,12 +164,16 @@ public class HexGame {
                 game2.move(colors[moves % 2], scanner.nextInt());
                 moves++;
             }
+            if (!game2.checkForWin()) {
+                System.out.print("No win found! Final board:");
+                System.out.println(game2);
+            }
         }
         catch (FileNotFoundException ex) {
             System.out.println("Error: File not found");
         }
-        System.out.println(game2);
 
+        System.out.println("Testing board with file moves2.txt");
         HexGame game3 = new HexGame();
         try {
             Scanner scanner = new Scanner(new File("moves2.txt"));
@@ -161,10 +182,12 @@ public class HexGame {
                 game3.move(colors[moves % 2], scanner.nextInt());
                 moves++;
             }
+            if (!game3.checkForWin()) {
+                System.out.print("No win found! Final board:");
+            }
         }
         catch (FileNotFoundException ex) {
             System.out.println("Error: File not found");
         }
-        System.out.println(game3);
     }
 }
