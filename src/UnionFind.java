@@ -68,7 +68,7 @@ public class UnionFind {
     }
 
     public UnionFind() {
-        this(121);
+        this(125);
     }
 
     public UnionFind(int size) {
