@@ -6,10 +6,7 @@ public class UnionFind {
         int rootA = find(a);
         int rootB = find(b);
         // make sure roots aren't the same
-        if (rootA == rootB) {
-            System.out.println(a + " and " + b + " are already linked");
-            return;
-        }
+        if (rootA == rootB) { return; }
 //        if rootA has a greater height, it will be the root of the new tree
         if (array[rootA] < array[rootB]) {
             array[rootB] = rootA;
