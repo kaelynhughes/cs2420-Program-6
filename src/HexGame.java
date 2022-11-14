@@ -2,6 +2,9 @@ public class HexGame {
     private String[] cellArray;
     private final int sideLength;
     private UnionFind unionFind;
+    private static final String COLOR_RESET =  "\u001B[0m";
+    private static final String COLOR_RED =  "\u001B[31m";
+    private static final String COLOR_BLUE =  "\u001B[34m";
 
     private int[] findNeighbors(int cell) {
         // neighbor list: { top left, top right, left vertical, right vertical, bottom left, bottom right }
@@ -67,10 +70,10 @@ public class HexGame {
                 indent = indent + " ";
             }
             if (cellArray[i].compareTo("RED") == 0) {
-                sb.append("R ");
+                sb.append(COLOR_RED + "R " + COLOR_RESET);
             }
             else if (cellArray[i].compareTo("BLUE") == 0) {
-                sb.append("B ");
+                sb.append(COLOR_BLUE + "B " + COLOR_RESET);
             }
             else {
                 sb.append("0 ");
@@ -108,6 +111,16 @@ public class HexGame {
         System.out.println("Test constructor:");
         HexGame game1 = new HexGame();
         System.out.println(game1.getSize() + " cells for a side length of " + game1.getSideLength());
+        System.out.println(game1);
+
+        System.out.println("Test findNeighbors & overlapping moves");
+        int[] cellsToTest = {12, 27, 47, 63, 82, 107};
+        for (int i : cellsToTest) {
+            game1.move("BLUE", i);
+            for (int j : game1.findNeighbors(i)) {
+                game1.move("RED", j);
+            }
+        }
         System.out.println(game1);
     }
 }
